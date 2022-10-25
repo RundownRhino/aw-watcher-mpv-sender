@@ -3,7 +3,7 @@ An [ActivityWatch](https://github.com/ActivityWatch/activitywatch) watcher to re
 Currently, only provides heartbeat events with the video's title and filename. This is enough to see what you watched and for how long.
 The bucket used is `aw-watcher-mpv-curplaying_CLIENTHOSTNAME`.
 
-Notably, **it works by scanning logs provided by another utility**. This repo is for the `-sender` part that scans the logs. The other part is [aw-watcher-mpv-logger](https://github.com/RundownRhino/aw-watcher-mpv-sender) - an `mpv` plugin that records the events as text files that the sender then scans.
+Notably, **it works by scanning logs provided by another utility**. This repo is for the `-sender` part that scans the logs. The other part is [aw-watcher-mpv-logger](https://github.com/RundownRhino/aw-watcher-mpv-logger) - an `mpv` plugin that records the events as text files that the sender then scans.
 
 ## Installation
 Can be installed with `pip`. For example, to get current master:
@@ -12,7 +12,7 @@ pip install git+https://github.com/RundownRhino/aw-watcher-mpv-sender
 ```
 
 ## Usage
-1. Install [aw-watcher-mpv-logger](https://github.com/RundownRhino/aw-watcher-mpv-sender) by following the installation instructions there.
+1. Install [aw-watcher-mpv-logger](https://github.com/RundownRhino/aw-watcher-mpv-logger) by following the installation instructions there.
 2. Install `aw-watcher-mpv-sender` by following the instructions above.
 3. Launch `aw-watcher-mpv-sender` via the command line, passing it the log folder of the logger. You'll probably want to make a script for this. Example `.bat`:
 ```bat
