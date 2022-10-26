@@ -23,7 +23,7 @@ pause
 4. Watch a video in mpv, and a few dozen seconds later you should start seeing the heartbeats. You may need to reopen the web UI.
 
 ## TODOs and known issues
-- [ ] Currently, the log file for today is fully scanned every five seconds. This isn't *too* bad as the log file can't be more than a few megabytes for a full day, but a better way should be implemented later.
+- [X] ~~Currently, the log file for today is fully scanned every five seconds. This isn't *too* bad as the log file can't be more than a few megabytes for a full day, but a better way should be implemented later.~~ - fixed, now the sender seeks to the last file end position.
 - [ ] Because the sender only checks the current day's logs, the last event or two from the last day (so, ~10 seconds of viewing time) may be lost. More generally, it doesn't scan old logs to discover events there.
 - [ ] Visualizations? Would be nice to have something like "video titles by playing time".
 - [ ] Counting video playing time as non-afk. That actually seems easy-ish to implement dashboard-side; it'd require adding another union [here](https://github.com/ActivityWatch/aw-webui/blob/74778e06d2ad702ff3e60582f28b3fda043f0488/src/queries.ts#L124-L130). Doing this in a generic fashion would of course need a PR.
