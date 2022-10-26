@@ -1,6 +1,11 @@
+from __future__ import annotations
 import datetime as DT
 import sys
 import traceback
+from typing import Collection, Hashable, Iterator, TypeVar, Generic
+from collections import deque
+
+HashableT = TypeVar("HashableT", bound=Hashable)
 
 
 def utcnow() -> DT.datetime:
@@ -24,3 +29,41 @@ def log_error(msg: str, e: BaseException):
 def parse_timestamp(ts: str) -> DT.datetime:
     res = DT.datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ")
     return res.replace(tzinfo=DT.timezone.utc)
+
+
+class LRUSet(Generic[HashableT], Collection):
+    """
+    An ordered set that stores only maxlen last elements.
+    """
+
+    def __init__(self, maxlen: int):
+        assert maxlen > 0
+        self._maxlen = maxlen
+        self._queue: deque[HashableT] = deque(maxlen=maxlen)
+        self._set: set[HashableT] = set()
+
+    def __len__(self) -> int:
+        return len(self._queue)
+
+    def remove(self, el: HashableT):
+        self._queue.remove(el)
+        self._set.remove(el)
+
+    def push(self, el: HashableT):
+        if el in self._set:
+            self.remove(el)  # we want to move it to the end of the queue if so.
+        if len(self) == self._maxlen:
+            self.pop()
+        self._queue.append(el)
+        self._set.add(el)
+
+    def pop(self) -> HashableT:
+        oldest = self._queue.popleft()
+        self._set.remove(oldest)
+        return oldest
+
+    def __iter__(self) -> Iterator[HashableT]:
+        return iter(self._queue)
+
+    def __contains__(self, el: HashableT) -> bool:
+        return el in self._set
