@@ -108,4 +108,4 @@ class Sender:
         key = (bucket_id, event_type)
         if key not in self.buckets_created:
             self.client.create_bucket(bucket_id, event_type)
-        self.buckets_created.add(key)
+            self.buckets_created.add(key)
