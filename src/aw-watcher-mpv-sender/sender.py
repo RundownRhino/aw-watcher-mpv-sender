@@ -22,6 +22,8 @@ class Sender:
     # they only have precision down to a second
     last_heartbeat: Optional[DT.datetime] = None
     buckets_created: set[tuple[str, str]] = field(default_factory=set)
+    last_log_path: Optional[Path] = None
+    last_position: Optional[int] = None
 
     def __post_init__(self):
         if self.last_heartbeat is None:
@@ -44,12 +46,20 @@ class Sender:
 
         # TODO: is utf-8 a good choice? on mpv's side we use io.open without a specific encoding
         with log.open("rt", encoding="utf-8") as fo:
+            if self.last_log_path == log and self.last_position is not None:
+                fo.seek(self.last_position)
+            else:
+                self.last_log_path = log
+                self.last_position = None
             with self.client:
                 for line in fo:
                     line = line.strip()
                     if not line:
                         continue
-                    new_seen += self.process_event(line)
+                    cur_ok = self.process_event(line)
+                    new_seen += cur_ok
+                    if cur_ok:
+                        self.last_position = fo.tell()
         return new_seen
 
     def process_event(self, line: str) -> bool:
