@@ -14,7 +14,7 @@ pip install git+https://github.com/RundownRhino/aw-watcher-mpv-sender
 ## Usage
 1. Install [aw-watcher-mpv-logger](https://github.com/RundownRhino/aw-watcher-mpv-logger) by following the installation instructions there.
 2. Install `aw-watcher-mpv-sender` by following the instructions above.
-3. Launch `aw-watcher-mpv-sender` via the command line, passing it the log folder of the logger. You'll probably want to make a script for this. Example `.bat`:
+3. Launch `aw-watcher-mpv-sender` as a Python module (`-m aw-watcher-mpv-sender`), passing it the log folder of the logger. You'll probably want to make a script for this, and optionally make it run on system startup. Example `.bat`:
 ```bat
 title aw-watcher-mpv
 python -m aw-watcher-mpv-sender "C:\Program Files\mpv\mpv-history"
