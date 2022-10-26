@@ -9,9 +9,8 @@ from typing import Optional
 
 from aw_core.models import Event
 from aw_client.client import ActivityWatchClient
-from utils import parse_timestamp
-from models import PlayingHeartbeat
-from utils import log_error, today_filename
+from .utils import parse_timestamp, log_error, today_filename
+from .models import PlayingHeartbeat
 
 
 @dataclass

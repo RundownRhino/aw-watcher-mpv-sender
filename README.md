@@ -17,7 +17,7 @@ pip install git+https://github.com/RundownRhino/aw-watcher-mpv-sender
 3. Launch `aw-watcher-mpv-sender` via the command line, passing it the log folder of the logger. You'll probably want to make a script for this. Example `.bat`:
 ```bat
 title mpv-aw-watcher
-python -m mpv-aw-watcher-sender "C:\Program Files\mpv\mpv-history"
+python -m aw-watcher-mpv-sender "C:\Program Files\mpv\mpv-history"
 pause
 ```
 4. Watch a video in mpv, and a few dozen seconds later you should start seeing the heartbeats. You may need to reopen the web UI.

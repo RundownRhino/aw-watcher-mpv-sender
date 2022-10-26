@@ -5,7 +5,7 @@ import traceback
 
 def utcnow() -> DT.datetime:
     """
-        Gives the current UTC time. Not the same as datetime.utcnow().
+    Gives the current UTC time. Not the same as datetime.utcnow().
     """
     return DT.datetime.now(tz=DT.timezone.utc)
 

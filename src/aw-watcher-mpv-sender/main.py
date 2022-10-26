@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 
-from sender import Sender
+from .sender import Sender
 from aw_client.client import ActivityWatchClient
 
 
@@ -22,7 +22,3 @@ def main():
 
 def run_with(log_folder: Path):
     Sender(log_folder=log_folder, client=ActivityWatchClient(client_name="aw-watcher-mpv")).run()
-
-
-if __name__ == "__main__":
-    main()
