@@ -75,6 +75,7 @@ class Sender:
             return False
 
     def send_event(self, event: dict) -> None:
+        # TODO: it would be nice not to resend the last events to the server many times.
         kind = event["kind"]
         if kind != "playing":
             return  # for now we only handle playing heartbeats
