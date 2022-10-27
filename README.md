@@ -30,4 +30,4 @@ pause
 - [ ] Automatically delete old `-logger` logfiles?
 
 ## Acknowledgements
-Initial draft of the logger code was based on [mpv-history.lua](https://github.com/SqrtMinusOne/dotfiles/blob/d093e755fd97a88157d10f4df7353a1729071ee5/.config/mpv/scripts/mpv-history.lua) - SqrtMinusOne graciously posted it when I asked on the AW discord if anyone knows of an existing AW watcher for mpv.
+Initial draft of the logger code was based on [mpv-history.lua](https://github.com/SqrtMinusOne/dotfiles/blob/d093e755fd97a88157d10f4df7353a1729071ee5/.config/mpv/scripts/mpv-history.lua) - SqrtMinusOne graciously posted it when I asked on the AW discord if anyone knew of an existing AW watcher for mpv.
