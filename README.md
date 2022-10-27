@@ -27,3 +27,4 @@ pause
 - [ ] Because the sender only checks the current day's logs, the last event or two from the last day (so, ~10 seconds of viewing time) may be lost. More generally, it doesn't scan old logs to discover events there.
 - [ ] Visualizations? Would be nice to have something like "video titles by playing time".
 - [ ] Counting video playing time as non-afk. That actually seems easy-ish to implement dashboard-side; it'd require adding another union [here](https://github.com/ActivityWatch/aw-webui/blob/74778e06d2ad702ff3e60582f28b3fda043f0488/src/queries.ts#L124-L130). Doing this in a generic fashion would of course need a PR.
+- [ ] Automatically delete old `-logger` logfiles?
