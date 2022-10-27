@@ -1,11 +1,22 @@
-from typing import Literal, TypedDict
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import Literal
+import datetime as DT
+from aw_core.models import Event
+from .utils import parse_timestamp
 
 
-class PlayingHeartbeat(TypedDict):
-    time: str  # datetime
+@dataclass(frozen=True)
+class CurplayingHeartbeat:
+    time: DT.datetime
     filename: str
-    title: str  # media-title, which falls back to filename if not present
-    # length: str  # float
-    # path: str
-    # pos: str  # float
+    title: str
     kind: Literal["playing"]
+
+    @classmethod
+    def from_dict(cls, dct: dict[str, str]):
+        assert dct["kind"] == "playing"
+        return cls(time=parse_timestamp(dct["time"]), filename=dct["filename"], title=dct["title"], kind=dct["kind"])
+
+    def to_event(self) -> Event:
+        return Event(timestamp=self.time, data=dict(filename=self.filename, title=self.title))

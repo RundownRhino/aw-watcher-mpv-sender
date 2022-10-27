@@ -7,10 +7,9 @@ import datetime as DT
 from typing import Optional
 
 
-from aw_core.models import Event
 from aw_client.client import ActivityWatchClient
-from .utils import parse_timestamp, log_error, today_filename
-from .models import PlayingHeartbeat
+from .utils import LRUSet, parse_timestamp, log_error, today_filename
+from .models import CurplayingHeartbeat
 
 
 @dataclass
@@ -22,6 +21,9 @@ class Sender:
     # they only have precision down to a second
     last_heartbeat: Optional[DT.datetime] = None
     buckets_created: set[tuple[str, str]] = field(default_factory=set)
+    last_log_path: Optional[Path] = None
+    last_position: Optional[int] = None
+    last_sent_events: LRUSet[CurplayingHeartbeat] = field(default_factory=lambda: LRUSet(50))
 
     def __post_init__(self):
         if self.last_heartbeat is None:
@@ -44,12 +46,23 @@ class Sender:
 
         # TODO: is utf-8 a good choice? on mpv's side we use io.open without a specific encoding
         with log.open("rt", encoding="utf-8") as fo:
+            if self.last_log_path == log and self.last_position is not None:
+                fo.seek(self.last_position)
+            else:
+                self.last_log_path = log
+                self.last_position = None
             with self.client:
-                for line in fo:
+                # this prevents tell being disabled from using next:
+                for line in iter(fo.readline, ""):
                     line = line.strip()
                     if not line:
                         continue
-                    new_seen += self.process_event(line)
+                    cur_ok = self.process_event(line)
+                    new_seen += cur_ok
+                    # If this event was sent successfully, we update the stored position to right after it
+                    # If not, then possibly event is last in file and only partially written, and so we should reread it next time.
+                    if cur_ok:
+                        self.last_position = fo.tell()
         return new_seen
 
     def process_event(self, line: str) -> bool:
@@ -67,28 +80,27 @@ class Sender:
             timestamp = parse_timestamp(event["time"])
             if self.last_heartbeat is not None and timestamp < self.last_heartbeat:
                 return False  # event already should have been seen.
-            self.send_event(event)
+            res = self.send_event(event)
             self.last_heartbeat = timestamp
-            return True
+            return res
         except Exception as e:
             log_error(f"Couldn't process JSON event {event} :", e)
             return False
 
-    def send_event(self, event: dict) -> None:
-        # TODO: it would be nice not to resend the last events to the server many times.
-        kind = event["kind"]
+    def send_event(self, raw_event: dict) -> bool:
+        kind = raw_event["kind"]
         if kind != "playing":
-            return  # for now we only handle playing heartbeats
-
-        hb_event: PlayingHeartbeat = event  # type:ignore
+            return False  # for now we only handle playing heartbeats
 
         event_type = "curplaying"
         bucket_id = f"{self.client.client_name}-{event_type}_{self.client.client_hostname}"
         self.create_bucket_once(bucket_id=bucket_id, event_type=event_type)
-        heartbeat_data = {"filename": hb_event["filename"], "title": hb_event["title"]}
-
-        event = Event(timestamp=parse_timestamp(hb_event["time"]), data=heartbeat_data)
-        self.client.heartbeat(bucket_id, event, pulsetime=10, commit_interval=10, queued=True)
+        hb = CurplayingHeartbeat.from_dict(raw_event)
+        if hb in self.last_sent_events:
+            return False
+        self.last_sent_events.push(hb)
+        self.client.heartbeat(bucket_id, hb.to_event(), pulsetime=10, commit_interval=10, queued=True)
+        return True
 
     def run(self):
         print("Now running.")
