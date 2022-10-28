@@ -12,8 +12,13 @@ Since version 0.2, `aw-watcher-mpv` gets built as a pyinstaller executable, maki
 1. Install [aw-watcher-mpv-logger](https://github.com/RundownRhino/aw-watcher-mpv-logger) by following the installation instructions there.
 2. Download `aw-watcher-mpv-sender` by following [the instructions above](#installation).
 3. Put the watcher into your ActivityWatch installation alongside the other watchers. If the path to aw-qt is `C:\Program Files\ActivityWatch\aw-qt.exe`, the path to the watcher's executable should be `I:\Program Files\ActivityWatch\aw-watcher-mpv\aw-watcher-mpv.exe`.
-4. Restart ActivityWatch, and on right-clicking the tray icon you should see `aw-watcher-mpv` appear in modules, where you can start it.
-5. If you want `aw-watcher-mpv` to launch automatically, add it to `autostart_modules` list of `aw-qt.toml` in the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config). Example config:
+4. Restart ActivityWatch, and on right-clicking the tray icon you should see `aw-watcher-mpv` appear in modules, where you can start it. On the first launch, it should fail immediately due to a lack of config.
+5. In the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config), find the automatically created file `aw-watcher-mpv\aw-watcher-mpv.toml`. In it, you need to specify the folder `mpv-logger` is configured to log into; by default `<mpv root>/mpv_history`. For example:
+```toml
+log_folder = "C:/Program Files/mpv/mpv-history"
+```
+After this change, `aw-watcher-mpv` should launch and run correctly.
+6. If you want `aw-watcher-mpv` to launch automatically, add it to `autostart_modules` list of `aw-qt.toml` in the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config). Example config:
 ```toml
 [aw-qt]
 autostart_modules = ["aw-server", "aw-watcher-afk", "aw-watcher-window", "aw-watcher-mpv"]
