@@ -56,18 +56,17 @@ class Sender:
             else:
                 self.last_log_path = log
                 self.last_position = None
-            with self.client:
-                # this prevents tell being disabled from using next:
-                for line in iter(fo.readline, ""):
-                    line = line.strip()
-                    if not line:
-                        continue
-                    cur_ok = self.process_event(line)
-                    new_seen += cur_ok
-                    # If this event was sent successfully, we update the stored position to right after it
-                    # If not, then possibly event is last in file and only partially written, and so we should reread it next time.
-                    if cur_ok:
-                        self.last_position = fo.tell()
+            # this prevents tell being disabled from using next:
+            for line in iter(fo.readline, ""):
+                line = line.strip()
+                if not line:
+                    continue
+                cur_ok = self.process_event(line)
+                new_seen += cur_ok
+                # If this event was sent successfully, we update the stored position to right after it
+                # If not, then possibly event is last in file and only partially written, and so we should reread it next time.
+                if cur_ok:
+                    self.last_position = fo.tell()
         return new_seen
 
     def process_event(self, line: str) -> bool:
@@ -107,14 +106,15 @@ class Sender:
 
     def run(self):
         logger.info("Now running.")
-        while True:
-            try:
-                cnt = self.process_logs()
-                if cnt:
-                    logger.debug(f"{cnt} new events sent.")
-                time.sleep(5)
-            except KeyboardInterrupt:
-                break
+        with self.client:
+            while True:
+                try:
+                    cnt = self.process_logs()
+                    if cnt:
+                        logger.debug(f"{cnt} new events sent.")
+                    time.sleep(5)
+                except KeyboardInterrupt:
+                    break
 
     def create_bucket_once(self, bucket_id: str, event_type: str):
         """
