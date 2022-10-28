@@ -30,4 +30,3 @@
 
 [tool.poetry.group.dev.dependencies]
     pyinstaller = "^5.0.1"
-    black = ">=22"
