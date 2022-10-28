@@ -10,8 +10,8 @@ from typing import Optional
 
 from aw_client.client import ActivityWatchClient
 
-from .models import CurplayingHeartbeat
-from .utils import log_error, LRUSet, parse_timestamp, today_filename
+from aw_watcher_mpv_sender.models import CurplayingHeartbeat
+from aw_watcher_mpv_sender.utils import log_error, LRUSet, parse_timestamp, today_filename
 
 
 logger = logging.getLogger(__name__)

@@ -21,7 +21,7 @@
         # poetry should inject the license classifier automatically
         # same for the python version ones
     ]
-    packages = [{include="aw-watcher-mpv-sender", from="src"}]
+    packages = [{include="aw-watcher-mpv-sender"}]
 
 [tool.poetry.dependencies]
     python = ">=3.9,<3.11" # uses generic standard collections; pyinstaller requires <3.11 for now

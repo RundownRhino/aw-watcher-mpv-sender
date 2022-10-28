@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(
-    ['src\\aw-watcher-mpv-sender\\__init__.py'],
+    ['aw_watcher_mpv_sender\\__main__.py'],
     pathex=[],
     binaries=[],
     datas=[],

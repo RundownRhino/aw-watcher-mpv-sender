@@ -6,7 +6,7 @@ from typing import Literal
 
 from aw_core.models import Event
 
-from .utils import parse_timestamp
+from aw_watcher_mpv_sender.utils import parse_timestamp
 
 
 @dataclass(frozen=True)

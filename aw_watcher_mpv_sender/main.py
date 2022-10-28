@@ -4,8 +4,8 @@ from pathlib import Path
 from aw_client.client import ActivityWatchClient
 from aw_core.log import setup_logging
 
-from .config import CONFIG, default_log_folder
-from .sender import Sender
+from aw_watcher_mpv_sender.config import CONFIG, default_log_folder
+from aw_watcher_mpv_sender.sender import Sender
 
 
 def main():
