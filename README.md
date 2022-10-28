@@ -6,21 +6,28 @@ The bucket used is `aw-watcher-mpv-curplaying_CLIENTHOSTNAME`.
 Notably, **it works by scanning logs provided by another utility**. This repo is for the `-sender` part that scans the logs. The other part is [aw-watcher-mpv-logger](https://github.com/RundownRhino/aw-watcher-mpv-logger) - an `mpv` plugin that records the events as text files that the sender then scans.
 
 ## Installation
-Can be installed with `pip`. For example, to get current master:
-```
-pip install git+https://github.com/RundownRhino/aw-watcher-mpv-sender
-```
+Since version 0.2, `aw-watcher-mpv` gets built as a pyinstaller executable, making it a valid AW module. Get the latest release from [Releases](https://github.com/RundownRhino/aw-watcher-mpv-sender/releases/latest), or see [Build](#build) about building from source.
 
 ## Usage
 1. Install [aw-watcher-mpv-logger](https://github.com/RundownRhino/aw-watcher-mpv-logger) by following the installation instructions there.
-2. Install `aw-watcher-mpv-sender` by following the instructions above.
-3. Launch `aw-watcher-mpv-sender` as a Python module (`-m aw-watcher-mpv-sender`), passing it the log folder of the logger. You'll probably want to make a script for this, and optionally make it run on system startup. Example `.bat`:
-```bat
-title aw-watcher-mpv
-python -m aw-watcher-mpv-sender "C:\Program Files\mpv\mpv-history"
-pause
+2. Download `aw-watcher-mpv-sender` by following [the instructions above](#installation).
+3. Put the watcher into your ActivityWatch installation alongside the other watchers. If the path to aw-qt is `C:\Program Files\ActivityWatch\aw-qt.exe`, the path to the watcher's executable should be `I:\Program Files\ActivityWatch\aw-watcher-mpv\aw-watcher-mpv.exe`.
+4. Restart ActivityWatch, and on right-clicking the tray icon you should see `aw-watcher-mpv` appear in modules, where you can start it.
+5. If you want `aw-watcher-mpv` to launch automatically, add it to `autostart_modules` list of `aw-qt.toml` in the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config). Example config:
+```toml
+[aw-qt]
+autostart_modules = ["aw-server", "aw-watcher-afk", "aw-watcher-window", "aw-watcher-mpv"]
 ```
-4. Watch a video in mpv, and a few dozen seconds later you should start seeing the heartbeats. You may need to reopen the web UI.
+
+Alternatively to letting AW launch the watcher, you may install `aw-watcher-mpv-sender` as a python module and launch it via the command line (see `python -m aw_watcher_mpv_sender --help`).
+
+## Build
+If you need to build from source:
+1. Clone the repository
+2. (Optional) Create a venv with e.g. `python -m virtualenv venv` and activate it (with e.g. `./venv/Scripts/activate`).
+3. `poetry install` to get all the dependencies. You may need to do `pip install poetry` first.
+4. `pyinstaller --clean pyinstaller.spec` to build the module.
+After this, the folder `dist/aw-watcher-mpv` will be the built module.
 
 ## TODOs and known issues
 - [X] ~~Currently, the log file for today is fully scanned every five seconds. This isn't *too* bad as the log file can't be more than a few megabytes for a full day, but a better way should be implemented later.~~ - fixed, now the sender seeks to the last file end position.
