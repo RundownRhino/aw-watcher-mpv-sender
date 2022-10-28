@@ -1,11 +1,15 @@
 from __future__ import annotations
+
 import datetime as DT
+import logging
 import sys
 import traceback
-from typing import Collection, Hashable, Iterator, TypeVar, Generic
 from collections import deque
+from typing import Collection, Generic, Hashable, Iterator, TypeVar
 
 HashableT = TypeVar("HashableT", bound=Hashable)
+
+logger = logging.getLogger(__name__)
 
 
 def utcnow() -> DT.datetime:
@@ -23,7 +27,7 @@ def today_filename() -> str:
 
 
 def log_error(msg: str, e: BaseException):
-    print(msg, traceback.format_exception(e), file=sys.stderr)
+    logger.error(msg, exc_info=e)
 
 
 def parse_timestamp(ts: str) -> DT.datetime:

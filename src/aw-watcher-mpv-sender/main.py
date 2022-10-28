@@ -1,12 +1,16 @@
 import argparse
 from pathlib import Path
 
-from .sender import Sender
 from aw_client.client import ActivityWatchClient
+from aw_core.log import setup_logging
+
 from .config import CONFIG, default_log_folder
+from .sender import Sender
 
 
 def main():
+    # Note: verbose means LEVEL=DEBUG, else LEVEL=INFO.
+    setup_logging("aw-watcher-mpv", testing=False, verbose=False, log_stderr=True, log_file=True)
     parser = argparse.ArgumentParser(description="Starts the sender")
     parser.add_argument(
         "--log_folder", type=Path, help="the folder aw-watcher-mpv-logger writes logs to", default=CONFIG["log_folder"]

@@ -1,15 +1,19 @@
 from __future__ import annotations
-from dataclasses import dataclass, field
-import json
-from pathlib import Path
-import time
+
 import datetime as DT
+import json
+import logging
+import time
+from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Optional
 
-
 from aw_client.client import ActivityWatchClient
-from .utils import LRUSet, parse_timestamp, log_error, today_filename
+
 from .models import CurplayingHeartbeat
+from .utils import LRUSet, log_error, parse_timestamp, today_filename
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -33,7 +37,7 @@ class Sender:
             if not last_event:
                 return
             self.last_heartbeat = last_event[0].timestamp
-            print(f"Fetched last timestamp as {self.last_heartbeat.isoformat()}, ignoring events before that.")
+            logger.info(f"Fetched last timestamp as {self.last_heartbeat.isoformat()}, ignoring events before that.")
 
     def process_logs(self) -> int:
         """
@@ -72,8 +76,7 @@ class Sender:
         try:
             event = json.loads(line)
         except json.JSONDecodeError as e:
-            # TODO: better warning logs?
-            # though invalid json might just mean that line wasn't fully written yet.
+            # invalid json might just mean that line wasn't fully written yet, so it's not very serious - maybe warning?
             log_error("Couldn't decode log line", e)
             return False
         try:
@@ -103,13 +106,12 @@ class Sender:
         return True
 
     def run(self):
-        print("Now running.")
+        logger.info("Now running.")
         while True:
             try:
                 cnt = self.process_logs()
                 if cnt:
-                    pass
-                    # print(f"{cnt} new events sent.")
+                    logger.debug(f"{cnt} new events sent.")
                 time.sleep(5)
             except KeyboardInterrupt:
                 break
