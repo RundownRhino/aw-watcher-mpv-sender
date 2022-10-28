@@ -1,5 +1,6 @@
-from aw_core.config import load_config_toml
 from typing import TypedDict
+
+from aw_core.config import load_config_toml
 
 default_log_folder = "full/path/to/log/folder"
 default_config = f"""

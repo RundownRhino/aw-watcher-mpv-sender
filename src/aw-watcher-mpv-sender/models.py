@@ -1,8 +1,11 @@
 from __future__ import annotations
+
+import datetime as DT
 from dataclasses import dataclass
 from typing import Literal
-import datetime as DT
+
 from aw_core.models import Event
+
 from .utils import parse_timestamp
 
 
