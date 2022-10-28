@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import datetime as DT
 import logging
-import sys
-import traceback
 from collections import deque
 from typing import Collection, Generic, Hashable, Iterator, TypeVar
 

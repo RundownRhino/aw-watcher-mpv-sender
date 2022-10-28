@@ -4,7 +4,9 @@ from aw_core.config import load_config_toml
 
 default_log_folder = "full/path/to/log/folder"
 default_config = f"""
+
 log_folder = "{default_log_folder}"
+
 """
 
 

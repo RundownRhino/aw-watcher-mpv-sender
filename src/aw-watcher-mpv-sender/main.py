@@ -27,7 +27,6 @@ def main():
         except:
             raise ValueError("Path couldn't be resolved:", log_folder)
         raise ValueError("Path doesn't exist:", log_folder)
-
     run_with(log_folder)
 
 

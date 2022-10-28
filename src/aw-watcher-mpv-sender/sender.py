@@ -11,7 +11,8 @@ from typing import Optional
 from aw_client.client import ActivityWatchClient
 
 from .models import CurplayingHeartbeat
-from .utils import LRUSet, log_error, parse_timestamp, today_filename
+from .utils import log_error, LRUSet, parse_timestamp, today_filename
+
 
 logger = logging.getLogger(__name__)
 
@@ -94,7 +95,6 @@ class Sender:
         kind = raw_event["kind"]
         if kind != "playing":
             return False  # for now we only handle playing heartbeats
-
         event_type = "curplaying"
         bucket_id = f"{self.client.client_name}-{event_type}_{self.client.client_hostname}"
         self.create_bucket_once(bucket_id=bucket_id, event_type=event_type)
