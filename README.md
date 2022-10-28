@@ -18,6 +18,7 @@ Since version 0.2, `aw-watcher-mpv` gets built as a pyinstaller executable, maki
 log_folder = "C:/Program Files/mpv/mpv-history"
 ```
 After this change, `aw-watcher-mpv` should launch and run correctly.
+
 6. If you want `aw-watcher-mpv` to launch automatically, add it to `autostart_modules` list of `aw-qt.toml` in the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config). Example config:
 ```toml
 [aw-qt]
