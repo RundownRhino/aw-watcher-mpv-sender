@@ -1,27 +1,33 @@
 [tool.black]
-line-length = 120
-target-version = ['py310']
+    line-length = 120
+    target-version = ['py310']
 
 [build-system]
-requires = ["setuptools>=61.0.0", "wheel"]
-build-backend = "setuptools.build_meta"
+    requires = ["poetry-core>=1.0.0"]
+    build-backend = "poetry.core.masonry.api"
 
-[project]
-name = "aw-watcher-mpv-sender"
-version = "0.1.1"
-description = "ActivityWatch watcher for mpv. This is the python component that submits the collected logs to AW. See github for details."
-readme = "README.md"
-authors = [{ name = "RundownRhino"}]
-license = { file = "LICENSE" }
-classifiers = [
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-]
-keywords = ["activitywatch","mpv"]
-dependencies = [
-    "aw-client"
-]
+[tool.poetry]
+    name = "aw-watcher-mpv-sender"
+    version = "0.2.0"
+    description = "ActivityWatch watcher for mpv. This is the python component that submits the collected logs to AW. See github for details."
+    license = "MIT"
+    authors = ["RundownRhino"]
+    readme = "README.md"
+    homepage = "https://github.com/RundownRhino/aw-watcher-mpv-sender"
+    repository = "https://github.com/RundownRhino/aw-watcher-mpv-sender"
+    documentation = "https://github.com/RundownRhino/aw-watcher-mpv-sender"
+    keywords = ["activitywatch","mpv"]
+    classifiers = [
+        # poetry should inject the license classifier automatically
+        # same for the python version ones
+    ]
+    packages = [{include="aw-watcher-mpv-sender", from="src"}]
 
-[project.urls]
-Source = "https://github.com/RundownRhino/aw-watcher-mpv-sender"
+[tool.poetry.dependencies]
+    python = ">=3.9,<3.11" # uses generic standard collections; pyinstaller requires <3.11 for now
+    aw-client = "^0.5" # was tested only on 0.5.9
+    aw-core = "^0.5" # was tested only on 0.5.10
+
+[tool.poetry.group.dev.dependencies]
+    pyinstaller = "^5.0.1"
+    black = ">=22"
