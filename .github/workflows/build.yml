@@ -25,6 +25,7 @@ jobs:
         run: |
           echo "version is: ${{ env.APP_VERSION }}"
   build-release:
+    needs: ['get-version'] # necessary, or it can't access its outputs!
     if: needs.get-version.outputs.app_version != ''
     strategy:
       fail-fast: false
