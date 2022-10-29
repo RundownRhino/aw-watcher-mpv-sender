@@ -1,0 +1,62 @@
+name: Build executables
+
+on:
+  push:
+    branches: [ master, ci-actions ]
+  pull_request:
+    branches: [ master, ci-actions ]
+
+jobs:
+  get-version:
+    name: get-version
+    runs-on: ubuntu-latest
+    # env:
+      # Set to force version number, e.g., when no tag exists.
+      # RS_VERSION: TEST-0.0.0
+    outputs:
+      app_version: ${{ env.APP_VERSION }}
+    steps:
+      - name: Get the release version from the tag
+        shell: bash
+        if: env.APP_VERSION == ''
+        run: |
+          # Apparently, this is the right way to get a tag name. Really?
+          #
+          # See: https://github.community/t5/GitHub-Actions/How-to-get-just-the-tag-name/m-p/32167/highlight/true#M1027
+          # echo "RS_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          # echo echo ::set-output name=RS_VERSION::${GITHUB_REF#refs/tags/}
+          echo "APP_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV 
+          echo "version is: ${{ env.APP_VERSION }}"
+  build-release:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ 3.10 ]
+        poetry-version: [ 1.2.2 ]
+        os: [ ubuntu-22.04, windows-latest, macos-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run image
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - name: Disable virtualenvs
+        run: poetry config virtualenvs.create false
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Build executable
+        run: pyinstaller --clean pyinstaller.spec
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: aw-watcher-mpv-${{ app_version }}-${{ matrix.os }}
+          path: dist/aw-watcher-mpv
