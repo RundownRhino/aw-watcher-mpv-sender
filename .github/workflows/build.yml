@@ -19,11 +19,13 @@ jobs:
         shell: bash
         if: env.APP_VERSION == ''
         run: |
-          echo "APP_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          # echo echo ::set-output name=RS_VERSION::${GITHUB_REF#refs/tags/}
-          # echo "APP_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "APP_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+      - name: Show version
+        shell: bash
+        run: |
           echo "version is: ${{ env.APP_VERSION }}"
   build-release:
+    if: needs.get-version.outputs.app_version != ''
     strategy:
       fail-fast: false
       matrix:
