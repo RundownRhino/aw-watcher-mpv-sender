@@ -31,8 +31,9 @@ Alternatively to letting AW launch the watcher, you may install `aw-watcher-mpv-
 If you need to build from source:
 1. Clone the repository
 2. (Optional) Create a venv with e.g. `python -m virtualenv venv` and activate it (with e.g. `./venv/Scripts/activate`).
-3. `poetry install` to get all the dependencies. You may need to do `pip install poetry` first.
-4. `pyinstaller --clean pyinstaller.spec` to build the module.
+3. `poetry install` to get all the Python dependencies. You may need to do `pip install poetry` first.
+4. (For this step, you need node - v.18 is what I use, maybe other versions work too.) You now need to build the custom visualization. For that, `cd visualization`, then do `npm install` to install all the node modules needed for building it, and `npm run build` to build it. This produces an output in `visualization/dist`.
+5. `pyinstaller --clean pyinstaller.spec` to build the module.
 After this, the folder `dist/aw-watcher-mpv` will be the built module.
 
 ## TODOs and known issues
