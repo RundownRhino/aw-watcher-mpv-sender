@@ -57,5 +57,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: aw-watcher-mpv-${{ needs.get-version.outputs.app_version }}-${{ matrix.os }}
+          name: aw-watcher-mpv_${{ needs.get-version.outputs.app_version }}_${{ matrix.os }}
           path: dist/aw-watcher-mpv
