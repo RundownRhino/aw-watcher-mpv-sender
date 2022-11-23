@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "pug src/index.pug -o dist/"
+    "build": "pug src/index.pug -o dist/ && webpack"
   },
   "repository": {
     "type": "git",
