@@ -19,13 +19,26 @@ log_folder = "C:/Program Files/mpv/mpv-history"
 ```
 After this change, `aw-watcher-mpv` should launch and run correctly.
 
-6. If you want `aw-watcher-mpv` to launch automatically, add it to `autostart_modules` list of `aw-qt.toml` in the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config). Example config:
+###Autolaunch
+If you want `aw-watcher-mpv` to launch automatically, add it to `autostart_modules` list of `aw-qt.toml` in the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config). Example config:
 ```toml
 [aw-qt]
 autostart_modules = ["aw-server", "aw-watcher-afk", "aw-watcher-window", "aw-watcher-mpv"]
 ```
 
 Alternatively to letting AW launch the watcher, you may install `aw-watcher-mpv-sender` as a python module and launch it via the command line (see `python -m aw_watcher_mpv_sender --help`).
+
+###Custom visualization
+If you want the custom visualization (very WIP) to work, first of all you need to either be using the Python server, or aw-server-rust of a version above v0.12.1 (you need [this commit](https://github.com/ActivityWatch/aw-server-rust/commit/8bf4cb3666bad30cfb607c606d0fbd711ac02649)). You then need to add:
+```toml
+[server.custom_static]
+# make sure this fits your actual path to aw-watcher-mpv!
+# the path HAS to use /, not \!
+aw-watcher-mpv = "C:/Program Files/ActivityWatch/aw-watcher-mpv/visualization/dist"
+```
+into your `aw-server.toml` or your `aw-server-rust`'s `config.toml` (depending on which you're using).
+
+After that, restart the server and do to your dashboard. Open the Activity tab. Create a new view (say, `mpv` for both id and title), click "Edit view", then "Add visualization", then click the cogwheel and select "Custom visualization". This will open a popup asking for which visualization, enter "aw-watcher-mpv" and something like "Most Watched Videos" for the title.
 
 ## Build
 If you need to build from source:
