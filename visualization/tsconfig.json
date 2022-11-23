@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "target": "ES5",
-        "module": "commonJS",
+        "target": "ES2020",
+        "module": "ES2020",
         "removeComments": true,
         "lib": [
             "ES2020",
@@ -11,8 +11,11 @@
         "strictNullChecks": true,
         "strictBindCallApply": true,
         "strictPropertyInitialization": true,
-        "outDir": "build",
-        "moduleResolution": "node"
+        "outDir": "dist",
+        "moduleResolution": "node",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
     },
     "include": [
         "src/**/*.ts"
