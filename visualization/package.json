@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pug src/index.pug -o dist/"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,12 @@
   "homepage": "https://github.com/RundownRhino/aw-watcher-mpv-sender#readme",
   "dependencies": {
     "aw-client": "^0.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "browserify": "^17.0.0",
+    "pug-cli": "^1.0.0-alpha6",
+    "tsify": "^5.0.4",
+    "typescript": "^4.9.3"
   }
 }

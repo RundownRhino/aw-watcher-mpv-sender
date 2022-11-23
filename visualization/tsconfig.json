@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "commonJS",
+        "removeComments": true,
+        "lib": [
+            "ES2020",
+            "dom"
+        ],
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "outDir": "build",
+        "moduleResolution": "node"
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
+}
