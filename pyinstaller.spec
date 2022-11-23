@@ -8,7 +8,7 @@ a = Analysis(
     ['aw_watcher_mpv_sender/__main__.py'], # must use / for it to work cross-platform!
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[("visualization/dist","visualization/dist")],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
