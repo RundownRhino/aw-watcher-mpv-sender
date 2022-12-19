@@ -122,5 +122,6 @@ class Sender:
         """
         key = (bucket_id, event_type)
         if key not in self.buckets_created:
+            time.sleep(1)  # Wait before interacting with server
             self.client.create_bucket(bucket_id, event_type)
             self.buckets_created.add(key)
