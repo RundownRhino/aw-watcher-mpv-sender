@@ -3,3 +3,7 @@
 *.egg-info/
 *venv*
 build
+
+# need to ignore this dir for now because of a yet-unpublished
+# attempt at a visualization
+visualization
