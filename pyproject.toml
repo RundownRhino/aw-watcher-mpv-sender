@@ -8,7 +8,7 @@
 
 [tool.poetry]
     name = "aw-watcher-mpv-sender"
-    version = "0.2.0.9"
+    version = "0.2.1"
     description = "ActivityWatch watcher for mpv. This is the python component that submits the collected logs to AW. See github for details."
     license = "MIT"
     authors = ["RundownRhino"]
