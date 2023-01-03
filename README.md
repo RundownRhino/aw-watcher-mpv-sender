@@ -6,20 +6,29 @@ The bucket used is `aw-watcher-mpv-curplaying_CLIENTHOSTNAME`.
 Notably, **it works by scanning logs provided by another utility**. This repo is for the `-sender` part that scans the logs. The other part is [aw-watcher-mpv-logger](https://github.com/RundownRhino/aw-watcher-mpv-logger) - an `mpv` plugin that records the events as text files that the sender then scans.
 
 ## Installation
-Since version 0.2, `aw-watcher-mpv` gets built as a pyinstaller executable, making it a valid AW module. Get the latest release from [Releases](https://github.com/RundownRhino/aw-watcher-mpv-sender/releases/latest), or see [Build](#build) about building from source.
-
-## Usage
 1. Install [aw-watcher-mpv-logger](https://github.com/RundownRhino/aw-watcher-mpv-logger) by following the installation instructions there.
-2. Download `aw-watcher-mpv-sender` by following [the instructions above](#installation).
-3. Put the watcher into your ActivityWatch installation alongside the other watchers. If the path to aw-qt is `C:\Program Files\ActivityWatch\aw-qt.exe`, the path to the watcher's executable should be `I:\Program Files\ActivityWatch\aw-watcher-mpv\aw-watcher-mpv.exe`.
-4. Restart ActivityWatch, and on right-clicking the tray icon you should see `aw-watcher-mpv` appear in modules, where you can start it. On the first launch, it should fail immediately due to a lack of config (which will look to you like its entry in Modules not staying checkmarked).
-5. In the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config), find the automatically created file `aw-watcher-mpv\aw-watcher-mpv.toml`. In it, you need to specify the folder `mpv-logger` is configured to log into; by default `<mpv root>/mpv_history`. For example:
+2. Get the latest release from [Releases](https://github.com/RundownRhino/aw-watcher-mpv-sender/releases/latest), or see [Build](#build) from source.
+3. Create folder `aw-watcher-mpv` in the same place were other watchers live. Examples:
+   - Windows: If the path to aw-qt is `C:\Program Files\ActivityWatch\aw-qt.exe`, the path to the watcher's folder should be `C:\Program Files\ActivityWatch\aw-watcher-mpv\`
+   - Arch: `/opt/activitywatch/aw-watcher-afk`
+4. Unpack contents of downloaded ZIP to newly created folder `aw-watcher-mpv`
+5. Restart ActivityWatch
+6. Right-click the tray icon and you should see `aw-watcher-mpv` appear in modules. Start it. On the first launch, it should fail immediately due to a lack of config (which will look to you like its entry in Modules not staying checkmarked).
+7. In the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config) (which is different than installation directory) find the automatically created file `aw-watcher-mpv\aw-watcher-mpv.toml`. Inside provide path to output of aw-watcher-mpv-logger (default `<mpv root>/mpv_history`). For example:
+
+Win:
 ```toml
 log_folder = "C:/Program Files/mpv/mpv-history"
 ```
+
+Linux:
+```toml
+log_folder = "/home/user/.config/mpv/mpv-history"
+```
+
 After this change, `aw-watcher-mpv` should launch and run correctly.
 
-6. If you want `aw-watcher-mpv` to launch automatically, add it to `autostart_modules` list of `aw-qt.toml` in the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config). Example config:
+8. If you want `aw-watcher-mpv` to launch automatically, add it to `autostart_modules` list of `aw-qt.toml` in the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config). Example config:
 ```toml
 [aw-qt]
 autostart_modules = ["aw-server", "aw-watcher-afk", "aw-watcher-window", "aw-watcher-mpv"]
