@@ -3,7 +3,6 @@ from __future__ import annotations
 import datetime as DT
 import logging
 from collections import deque
-from functools import cache
 from typing import Collection, Generic, Hashable, Iterator, TypeVar
 
 HashableT = TypeVar("HashableT", bound=Hashable)
@@ -72,11 +71,10 @@ class LRUSet(Generic[HashableT], Collection):
         return el in self._set
 
 
-@cache
-def __version__() -> str:
-    try:
-        import pkg_resources
+__version__: str = "<unknown>"
+try:
+    import pkg_resources
 
-        return pkg_resources.get_distribution("aw-watcher-mpv-sender").version
-    except (ImportError, TypeError):
-        return "<unknown>"
+    __version__ = pkg_resources.get_distribution("aw-watcher-mpv-sender").version
+except (ImportError, TypeError):
+    pass

@@ -31,7 +31,7 @@ class Sender:
     last_sent_events: LRUSet[CurplayingHeartbeat] = field(default_factory=lambda: LRUSet(50))
 
     def __post_init__(self):
-        logger.info(f"aw-watcher-mpv-sender initializing. Version is {__version__()}, platform is {sys.platform}.")
+        logger.info(f"aw-watcher-mpv-sender initializing. Version is {__version__}, platform is {sys.platform}.")
         if self.last_heartbeat is None:
             bucket_id = f"{self.client.client_name}-curplaying_{self.client.client_hostname}"
             self.create_bucket_once(bucket_id, "curplaying")
