@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime as DT
 import json
 import logging
+import sys
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -11,8 +12,7 @@ from typing import Optional
 from aw_client.client import ActivityWatchClient
 
 from aw_watcher_mpv_sender.models import CurplayingHeartbeat
-from aw_watcher_mpv_sender.utils import log_error, LRUSet, parse_timestamp, today_filename
-
+from aw_watcher_mpv_sender.utils import LRUSet, __version__, log_error, parse_timestamp, today_filename
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +31,7 @@ class Sender:
     last_sent_events: LRUSet[CurplayingHeartbeat] = field(default_factory=lambda: LRUSet(50))
 
     def __post_init__(self):
+        logger.info(f"aw-watcher-mpv-sender initializing. Version is {__version__()}, platform is {sys.platform}.")
         if self.last_heartbeat is None:
             bucket_id = f"{self.client.client_name}-curplaying_{self.client.client_hostname}"
             self.create_bucket_once(bucket_id, "curplaying")

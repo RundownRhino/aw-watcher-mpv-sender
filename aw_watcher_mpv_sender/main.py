@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 from time import sleep
+
 from aw_client.client import ActivityWatchClient
 from aw_core.log import setup_logging
 
