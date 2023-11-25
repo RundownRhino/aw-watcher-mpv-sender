@@ -11,7 +11,7 @@ Notably, **it works by scanning logs provided by another utility**. This repo is
 3. Create folder `aw-watcher-mpv` in the same place were other watchers live. Examples:
    - Windows: If the path to aw-qt is `C:\Program Files\ActivityWatch\aw-qt.exe`, the path to the watcher's folder should be `C:\Program Files\ActivityWatch\aw-watcher-mpv\`
    - Arch: `/opt/activitywatch/aw-watcher-afk`
-4. Unpack contents of downloaded ZIP to newly created folder `aw-watcher-mpv`
+4. Unpack contents of downloaded ZIP to newly created folder `aw-watcher-mpv`. (On Linux and maybe MacOS, you [may need](https://github.com/RundownRhino/aw-watcher-mpv-sender/issues/8) to give the `aw-watcher-mpv` executable inside the execute permission - `chmod +x aw-watcher-mpv`).
 5. Restart ActivityWatch
 6. Right-click the tray icon and you should see `aw-watcher-mpv` appear in modules. Start it. On the first launch, it should fail immediately due to a lack of config (which will look to you like its entry in Modules not staying checkmarked).
 7. In the [AW Config directory](https://docs.activitywatch.net/en/latest/directories.html#config) (which is different than installation directory) find the automatically created file `aw-watcher-mpv\aw-watcher-mpv.toml`. Inside provide path to output of aw-watcher-mpv-logger (default `<mpv root>/mpv_history`). For example:
