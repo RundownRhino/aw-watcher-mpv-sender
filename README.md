@@ -1,4 +1,6 @@
 # aw-watcher-mpv
+**Project status**: Working fine; I have been using it for more than a year. If you have ideas for new features, suggestions are welcome.
+
 An [ActivityWatch](https://github.com/ActivityWatch/activitywatch) watcher to report on when there's a video playing in mpv, and what it is.
 Currently, only provides heartbeat events with the video's title and filename. This is enough to see what you watched and for how long.
 The bucket used is `aw-watcher-mpv-curplaying_CLIENTHOSTNAME`.
