@@ -50,17 +50,24 @@ class Sender:
             return False
         new_seen = 0
 
-        # TODO: is utf-8 a good choice? on mpv's side we use io.open without a specific encoding
-        with log.open("rt", encoding="utf-8") as fo:
+        # On the mpv side we may occasionally produce non-unicode titles (which are therefore invalid JSON).
+        # This is hard to fix, so as a safety measure we discard such lines.
+        # Hence, read as binary.
+        with log.open("rb") as fo:
             if self.last_log_path == log and self.last_position is not None:
                 fo.seek(self.last_position)
             else:
                 self.last_log_path = log
                 self.last_position = None
             # this prevents tell being disabled from using next:
-            for line in iter(fo.readline, ""):
-                line = line.strip()
-                if not line:
+            for bline in iter(fo.readline, ""):
+                bline = bline.strip()
+                if not bline:
+                    continue
+                try:
+                    line = bline.decode("utf-8")
+                except UnicodeDecodeError as e:
+                    logger.warning("Skipping a line due to a UTF-8 decoding error", exc_info=True)
                     continue
                 cur_ok = self.process_event(line)
                 new_seen += cur_ok
