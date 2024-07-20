@@ -60,7 +60,7 @@ class Sender:
                 self.last_log_path = log
                 self.last_position = None
             # this prevents tell being disabled from using next:
-            for bline in iter(fo.readline, ""):
+            for bline in iter(fo.readline, b""):
                 bline = bline.strip()
                 if not bline:
                     continue
