@@ -3,7 +3,7 @@
     target-version = ['py310']
 
 [build-system]
-    requires = ["poetry-core>=1.0.0"]
+    requires = ["poetry-core"]
     build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
@@ -29,4 +29,4 @@
     aw-core = "^0.5" # was tested only on 0.5.10
 
 [tool.poetry.group.dev.dependencies]
-    pyinstaller = "^5.0.1"
+    pyinstaller = "^6.6"
