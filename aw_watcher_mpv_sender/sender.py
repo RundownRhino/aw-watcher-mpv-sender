@@ -11,6 +11,7 @@ from typing import Optional
 
 from aw_client.client import ActivityWatchClient
 
+from aw_watcher_mpv_sender.config import CONFIG
 from aw_watcher_mpv_sender.models import CurplayingHeartbeat
 from aw_watcher_mpv_sender.utils import LRUSet, __version__, log_error, parse_timestamp, today_filename
 
@@ -34,7 +35,18 @@ class Sender:
         logger.info(f"aw-watcher-mpv-sender initializing. Version is {__version__}, platform is {sys.platform}.")
         if self.last_heartbeat is None:
             bucket_id = f"{self.client.client_name}-curplaying_{self.client.client_hostname}"
-            self.create_bucket_once(bucket_id, "curplaying")
+            try:
+                # if the server is not running, this will fail to connect
+                self.create_bucket_once(bucket_id, "curplaying")
+            except Exception as e:
+                server_connection_sleep = CONFIG["server_connection_sleep"]
+                logger.warning(
+                    "Failed to create bucket - maybe the server hasn't started yet? "
+                    f"Retrying once in {server_connection_sleep=}s."
+                )
+                time.sleep(server_connection_sleep)
+                # if this one fails we crash and get restarted
+                self.create_bucket_once(bucket_id, "curplaying")
             last_event = self.client.get_events(bucket_id, limit=1)
             if not last_event:
                 return

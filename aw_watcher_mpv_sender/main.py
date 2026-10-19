@@ -32,5 +32,5 @@ def main():
 
 
 def run_with(log_folder: Path):
-    sleep(1)  # Wait before interacting with server
-    Sender(log_folder=log_folder, client=ActivityWatchClient(client_name="aw-watcher-mpv")).run()
+    sender = Sender(log_folder=log_folder, client=ActivityWatchClient(client_name="aw-watcher-mpv"))
+    sender.run()
