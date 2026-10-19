@@ -32,7 +32,14 @@ jobs:
       matrix:
         python-version: [ "3.10" ]
         poetry-version: [ "1.2.2" ]
-        os: [ ubuntu-22.04, windows-latest, macos-latest ]
+        build: [linux, win, macos]
+        include:
+        - build: linux
+          os: ubuntu-latest
+        - build: win
+          os: windows-latest
+        - build: macos
+          os: macos-latest
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -55,7 +62,7 @@ jobs:
         run: pyinstaller --clean pyinstaller.spec
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: aw-watcher-mpv-${{ needs.get-version.outputs.app_version }}-${{ matrix.os }}
+          name: aw-watcher-mpv-${{ needs.get-version.outputs.app_version }}-${{ matrix.build }}
           path: dist/aw-watcher-mpv
